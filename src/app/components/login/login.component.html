@@ -1,0 +1,82 @@
+
+ 
+  
+  
+  <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+    <div class="container h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+          <div class="card" style="border-radius: 15px;">
+
+
+            <div class="card-body p-5" *ngIf="!isSetUsername">
+              <h2 class="text-uppercase text-center mb-5">Log in</h2>
+
+              <div class="alert alert-danger" role="alert" *ngIf="error != '' ">{{error}}</div>
+              <div class="alert alert-primary" role="alert" *ngIf="message != '' ">{{message}}</div>
+
+              <form> 
+                <div class="form-group mb-5">
+                  <label for="exampleInputEmail1">Email address</label>
+                  <input type="email" class="form-control" name="handle" aria-describedby="emailHelp" placeholder="Enter email" (change)="updateFormData($event)">
+                  
+                </div> 
+
+                <div class=" d-flex justify-content-center"  *ngIf="isLoading">
+
+                  <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+
+                <div class="mb-3 d-flex justify-content-center"> 
+                  <button type="button" class="btn btn-primary" (click)="loginStart()">Login</button>
+                </div>
+
+                <div class="mb-3 d-flex justify-content-center" *ngIf="application.anonymousLoginEnabled"> 
+                  <button type="button" class="btn btn-primary" (click)="loginAnonymousStart()">Login Anonymous</button>
+                </div>
+
+                <p class="text-center text-muted mt-5 mb-0">Don't have an account? <a href="/signup" class="fw-bold text-body"><u>Sign Up here</u></a></p>
+
+              </form> 
+            </div>
+
+
+            <div class="card-body p-5" *ngIf="isSetUsername">
+              <h2 class="text-uppercase text-center mb-5">Set User Name</h2>
+
+              <div class="alert alert-danger" role="alert" *ngIf="error != '' ">{{error}}</div>
+              <div class="alert alert-primary" role="alert" *ngIf="message != '' ">{{message}}</div>
+              <form>
+
+                <div class="form-group">
+                  <label for="displayName">User Name*</label>
+                  <input type="text" required class="form-control" name="userName" placeholder="Display Name" value="{{ userData.username }}" (change)="updateFormData($event)">
+                </div>
+
+                <div class="d-flex justify-content-center">
+
+                  <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status" *ngIf="isLoading">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+
+                  <button type="button" *ngIf="!isLoading" class="btn btn-primary mt-3" (click)="setUserNameHandler()">
+                    Submit
+                  </button>
+                </div> 
+
+              </form>
+
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+ 
+

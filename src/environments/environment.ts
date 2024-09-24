@@ -1,0 +1,10 @@
+
+
+export const environment = {
+    production: false,
+    server: { 
+      REST_API : 'http://localhost:3003',
+      APP_TOKEN:"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjMTBlZjZiZi1jYTNjLTQxMzUtODEwOC01MjUzODc2ZjM2ODYiLCJhcHBJZCI6IjkyNDAyNDFjOGY5MzQ1ZmVhYzM3ZGY3MmM4MTQ1ZTEzIiwic2NvcGUiOiJhcHAiLCJpYXQiOjE3MjU4NDg0Nzd9.UGTP2DXkm9RaFpQyTfP7j8bh1vGiQOy0UeP0WoaNu_lt1qtaSO9sSQlziaVg0fiHBkdDUUSqvpxKizt1ZIploMplOxcqSI5TRDLl5kbfHhXIohcEehDy35nnW2oMMD5-lqRWxDPBXQv1R09oIKa6yXXxt4Y0VFLwoVmdUkiJ_QpNYaC2CYVcwVaUEwlcWVE0-180gdvh8h3E_Xl0-WgVyyGjNKX6czy9MrPnoqhRPsiEp1n_ISbdTCW66Th4UAUA2TPcwsP0UBcVV1qMAvsJ7DsmGNFY_CKeceNArAIyVq9jjlmHzFlG2bXHXvn8z2yuhamg3Q5iImuCy52lKXVlDOotcW48BZOiI18hnDo-KV1Kzm-N9V5uxt4THK8cFkHgzUoWlzJNPPf336xvNOij2NKicoJ7EbSds4Y6hCepXBbui9Qrh6xc18-jV9iDjvDBrbTskDjm1C81JF0HXfgNNtGTpXsSGd42Ny8UjCybBLmmWLaKP6ljHpxsz0OK4Kbj",
+      
+    },
+  };
