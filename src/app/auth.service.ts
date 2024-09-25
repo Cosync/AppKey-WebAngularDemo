@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { User } from './models/user';
 import { environment } from '../environments/environment';
 import { BehaviorSubject, Observable,  } from 'rxjs'; 
+import * as localeData from './../locales.json';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,8 @@ import { BehaviorSubject, Observable,  } from 'rxjs';
 
 export class AuthService {
 
+  public localeList:Array<any> = localeData.list;
+  public appLocales:Array<any> = [];
   public user$: BehaviorSubject<User>;
   public user:User = new User() 
   public application:any = {}
@@ -87,6 +90,13 @@ export class AuthService {
  
   async getApplication(): Promise<any> {
     this.application =  await this.apiRequest("GET", "appuser/app", null);
+
+    for (let index = 0; index < this.application.locales.length; index++) {
+      const applocale = this.application.locales[index];
+      let locale = this.localeList.filter(item => item.code == applocale)[0]
+      if(locale) this.appLocales.push(locale)
+    }
+
     return this.application;
   }
 

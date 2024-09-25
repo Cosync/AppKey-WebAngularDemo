@@ -12,6 +12,7 @@ export class ProfileComponent implements OnInit{
   formData:any = {};
   currentUser: any = {};
   application:any = {};
+  locales:Array<any>=[];
 
   constructor(private authService: AuthService, private router: Router) { 
     this.currentUser = authService.user;
@@ -31,13 +32,16 @@ export class ProfileComponent implements OnInit{
     if(!this.authService.user || !this.authService.user.appUserId ) { 
       this.router.navigate(['login']);
     }
-    this.application = await this.authService.getApplication();
-
-    console.log("ngOnInit ", this.application)
-
-    this.currentUser = this.authService.user
+    this.application = await this.authService.getApplication(); 
+    this.currentUser = this.authService.user;
+    this.locales = this.authService.appLocales;
   }
 
+  findCountryByLocale(locale:String) {
+    let country = this.authService.localeList.filter(item => item.code == locale)[0];
+    //if (locale == "EN") return" English (default)";
+    return country ;
+  }
 
   updateFormData(event: any) {
     

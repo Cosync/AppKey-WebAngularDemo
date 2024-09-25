@@ -18,10 +18,10 @@
                     <input type="text" class="form-control" name="displayName" placeholder="Display Name" value="{{ formData.displayName }}" (change)="updateFormData($event)">
                 </div> 
 
-                <div class="form-group mt-4" *ngIf="application.locales && application.locales.length > 1">
+                <div class="form-group mt-4" *ngIf="locales.length > 1">
                     <label for="locale">Locale</label> 
                     <select class="form-control" name="locale"  value="{{ formData.locale }}"  (change)="updateFormData($event)" > 
-                      <option value={{locale}} *ngFor="let locale of application.locales" >{{locale}}</option>
+                      <option value={{item.code}} *ngFor="let item of locales" >{{item.name}}</option>
                     </select>
                 </div>
 

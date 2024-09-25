@@ -13,6 +13,7 @@ import { AuthService } from '../../auth.service';
 export class SignupComponent implements OnInit{
 
   application:any = {}
+  locales:Array<any>=[];
   isLoading = false;
   isConfirmSignup = false;
   isSetUsername = false;
@@ -28,6 +29,8 @@ export class SignupComponent implements OnInit{
     this.application = await this.authService.getApplication()
 
     console.log("getApplication application = ", this.application)
+    this.locales = this.authService.appLocales;
+    
   }
 
   constructor(private router: Router, private authService: AuthService) {

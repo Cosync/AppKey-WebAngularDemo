@@ -19,7 +19,7 @@
                   <input type="text" required class="form-control" name="userName" placeholder="Display Name" value="{{ userData.username }}" (change)="updateFormData($event)">
                 </div>
 
-                <div class="d-flex justify-content-center">
+                <div class="d-flex justify-content-center mt-2">
 
                   <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status" *ngIf="isLoading">
                     <span class="visually-hidden">Loading...</span>
@@ -54,12 +54,15 @@
                   <small id="emailHelp" class="form-text text-muted">We'll send a verify code to your email.</small>
                 </div>
 
-                <div class="form-group mt-4" *ngIf="application.locales.length > 1">
-                  <label for="locale">Select Locale</label> 
-                  <select class="form-control" name="locale"  value="{{ userData.locale }}"  (change)="updateFormData($event)" >  
-                    <option value={{locale}} *ngFor="let locale of application.locales" >{{locale}}</option> 
-                  </select>  
-                </div>
+               
+
+                <div class="form-group mt-4" *ngIf="locales.length > 1">
+                  <label for="locale">Set Locale</label> 
+                  <select class="form-control" name="locale"  value="{{ userData.locale }}"  (change)="updateFormData($event)" > 
+                    <option value={{item.code}} *ngFor="let item of locales" >{{item.name}}</option>
+                  </select>
+              </div>
+
 
                 <div class="form-group mt-4" *ngIf="isConfirmSignup"> 
                   <label for="code">Signup Code</label>
@@ -68,7 +71,7 @@
                 </div>
   
 
-                <div class="form-check d-flex justify-content-center mb-5">
+                <div class="form-check d-flex justify-content-center mb-5 mt-2">
                   <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3cg" />
                   <label class="form-check-label" for="form2Example3g">
                     I agree all statements in <a  class="text-body"><u>Terms of service</u></a>
@@ -76,7 +79,7 @@
                 </div>
 
                 
-                <div class="d-flex justify-content-center" *ngIf="isConfirmSignup">
+                <div class="d-flex justify-content-center mt-2" *ngIf="isConfirmSignup">
 
                   <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status" *ngIf="isLoading">
                     <span class="visually-hidden">Loading...</span>
