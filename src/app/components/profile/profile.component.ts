@@ -17,7 +17,11 @@ export class ProfileComponent implements OnInit{
   constructor(private authService: AuthService, private router: Router) { 
     this.currentUser = authService.user;
     if(this.currentUser) {
-      this.formData = this.currentUser; 
+      this.formData = {
+        appId:this.currentUser.appId,
+        displayName: this.currentUser.displayName,
+        handle: this.currentUser.handle
+      }; 
     }
    
     

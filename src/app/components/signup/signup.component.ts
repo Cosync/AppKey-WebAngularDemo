@@ -63,8 +63,22 @@ export class SignupComponent implements OnInit{
 
     const result:any = await this.authService.signup(this.userData);
 
-    if(result.status) {
-      this.message = result.message;
+     
+    if(result.error){
+      this.error = result.message;
+      this.isLoading = false;
+      return;
+    }
+
+    let attestationResponse:any = await startRegistration(result); 
+    console.log("startRegistration this.attestationResponse = ", attestationResponse);
+    attestationResponse.handle = this.userData.handle;
+
+    const verification:any = await this.authService.signupConfirm(attestationResponse);
+
+
+    if(verification.message) {
+      this.message = verification.message;
       this.isConfirmSignup = true;
     }
     else this.error = result.error.message;
@@ -96,18 +110,8 @@ export class SignupComponent implements OnInit{
 
       this.isLoading = true;
 
-      const creationOptions:any = await this.authService.signupConfirm(this.userData);
-      if(creationOptions.error){
-        this.error = creationOptions.message;
-        this.isLoading = false;
-        return;
-      }
-
-      let attestationResponse:any = await startRegistration(creationOptions); 
-      console.log("startRegistration this.attestationResponse = ", attestationResponse);
-      attestationResponse.handle = this.userData.handle;
-
-      const verification:any = await this.authService.signupComplete(attestationResponse);
+    
+      const verification:any = await this.authService.signupComplete(this.userData);
       
       console.log("signupComplete verification = ", verification);
 

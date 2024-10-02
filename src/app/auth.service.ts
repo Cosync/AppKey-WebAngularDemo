@@ -15,6 +15,7 @@ export class AuthService {
   public user$: BehaviorSubject<User>;
   public user:User = new User() 
   public application:any = {}
+  public signupToken:String = ""
   REST_API = environment.server.REST_API;
  
 
@@ -64,6 +65,7 @@ export class AuthService {
       };
 
       if(this.user.accessToken != "") options.headers['access-token'] = this.user.accessToken;
+      else if(this.signupToken != "") options.headers['signup-token'] = this.signupToken;
       else options.headers['app-token'] = environment.server.APP_TOKEN
 
       if(method == "POST" || method == "PUT") options.body = JSON.stringify(data);
@@ -85,6 +87,7 @@ export class AuthService {
     localStorage.clear(); 
     this.user = new User() 
     this.user$.next(this.user);
+    this.signupToken = "";
   }
 
  
@@ -108,6 +111,7 @@ export class AuthService {
 
 
   async login(data: any): Promise<any> {
+    
     return await this.apiRequest("POST", "appuser/login", data);
   }
 
@@ -115,8 +119,7 @@ export class AuthService {
   async loginComplete(data: any): Promise<any> {
     let result = await this.apiRequest("POST", "appuser/loginComplete", data);
 
-    if(!result.error) {
-     
+    if(!result.error) { 
     
       this.user$.next(result);
       this.user = result
@@ -149,12 +152,15 @@ export class AuthService {
 
 
   async signup(data: any): Promise<any> {
+    this.signupToken = "";
     return await this.apiRequest("POST", "appuser/signup", data);
   }
 
 
   async signupConfirm(data: any): Promise<any> {
-    return await this.apiRequest("POST", "appuser/signupConfirm", data);
+    let result = await this.apiRequest("POST", "appuser/signupConfirm", data);
+    this.signupToken = result['signup-token'] || "";
+    return result;
   }
 
 
@@ -165,6 +171,7 @@ export class AuthService {
       this.user$.next(result);
       this.user = result
       this.user.accessToken = result['access-token']
+      this.signupToken = "";
       localStorage.setItem('currentUser', JSON.stringify(this.user));
     } 
     return result;
