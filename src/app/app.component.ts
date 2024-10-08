@@ -10,7 +10,7 @@ import { AuthService } from './auth.service';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'PassClef-WebAngularDemo';
+  title = 'AppKey-WebAngularDemo';
 
  
 
