@@ -16,7 +16,7 @@ export class AuthService {
   public user:User = new User() 
   public application:any = {}
   public signupToken:String = ""
-  REST_API = environment.server.REST_API;
+ 
  
 
   constructor() { 
@@ -66,11 +66,11 @@ export class AuthService {
 
       if(this.user.accessToken != "") options.headers['access-token'] = this.user.accessToken;
       else if(this.signupToken != "") options.headers['signup-token'] = this.signupToken;
-      else options.headers['app-token'] = environment.server.APP_TOKEN
+      else options.headers['app-token'] = environment.APP_TOKEN
 
       if(method == "POST" || method == "PUT") options.body = JSON.stringify(data);
 
-      const response = await fetch(`${this.REST_API}/api/${endpoint}`, options);
+      const response = await fetch(`${environment.REST_API}/api/${endpoint}`, options);
       let result = await response.json();
 
       console.log(`apiRequest path: ${endpoint} - result: `, result)
