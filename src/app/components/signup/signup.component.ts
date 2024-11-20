@@ -31,9 +31,15 @@ export class SignupComponent implements OnInit{
     console.log("getApplication application = ", this.application)
     this.locales = this.authService.appLocales;
     
+    if(this.authService.user && this.authService.user.appUserId ) { 
+      this.router.navigate(['profile']);
+    }
+
+
   }
 
   constructor(private router: Router, private authService: AuthService) {
+   
    
   } 
 
