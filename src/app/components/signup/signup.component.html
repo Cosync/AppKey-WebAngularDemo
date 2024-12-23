@@ -38,6 +38,9 @@
             <div class="card-body p-5" *ngIf="!isSetUsername">
               <h2 class="text-uppercase text-center mb-5">Create an account</h2>
 
+              <div class="text-center text-muted mb-3"  >Welcome to the AppKey demo! Sign up with your email to create your passkey and log in effortlessly. Discover how simple and secure passwordless login can be—no passwords, just your passkey.</div>
+
+
               <div class="alert alert-danger" role="alert" *ngIf="error != '' ">{{error}}</div>
               <div class="alert alert-primary" role="alert" *ngIf="message != '' ">{{message}}</div>
 

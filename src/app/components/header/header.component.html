@@ -5,28 +5,19 @@
  
   <div class="container-fluid">
 
-    <a class="navbar-brand" href="/">
+    <a class="navbar-brand" href="https://cosync.io" target="_blank">
    
-      <img [src]="'./assets/appkey_logo.svg'" alt="AppKey" width="200px"  />
+      <img [src]="'./assets/cosync_bricks.svg'" alt="AppKey" width="100px"  />
       
     </a>
 
-    <ul class="navbar-nav mr-auto mt-2 list-group-horizontal">
-      <li class="nav-item p-2" *ngIf="!currentUser.appUserId">
-        <a class="nav-link" href="/login">Login</a>
-      </li>
+    <a class="navbar-brand" href="https://appkey.info" target="_blank">
+   
+      <img [src]="'./assets/appkey_logo.svg'" alt="AppKey" width="100px"  />
+      
+    </a>
 
-      <li class="nav-item p-2" *ngIf="!currentUser.appUserId">
-        <a class="nav-link" href="/signup">Signup</a>
-      </li>
-
-      <li class="nav-item p-2" *ngIf="currentUser.appUserId">
-        <a class="nav-link " href="/profile">Profile</a>
-      </li>
-      <li class="nav-item p-2" *ngIf="currentUser.appUserId">
-        <a class="nav-link " href="/logout">Logout</a>
-      </li>
-    </ul>
+     
 
   </div>
 

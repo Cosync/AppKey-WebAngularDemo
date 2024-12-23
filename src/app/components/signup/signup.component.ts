@@ -53,44 +53,53 @@ export class SignupComponent implements OnInit{
  
 
   async signupStart() {
-
-    console.log("signupStart this.userData ", this.userData);
-
-    if (this.userData.handle == "" || this.userData.displayName == ""){
-      this.error = "Please enter all field";
-      return;
-    }
+    try {
+        
     
+      console.log("signupStart this.userData ", this.userData);
 
-    this.message = ''
-    this.error = ''
+      if (this.userData.handle == "" || this.userData.displayName == ""){
+        this.error = "Please enter all field";
+        return;
+      }
+      
 
-    this.isLoading = true;
+      this.message = ''
+      this.error = ''
 
-    const result:any = await this.authService.signup(this.userData);
+      this.isLoading = true;
 
-     
-    if(result.error){
-      this.error = result.message;
+      const authOptions:any = await this.authService.signup(this.userData);
+      
+      
+      if(authOptions.error){
+        this.error = authOptions.error.message;
+        this.isLoading = false;
+        return;
+      }
+
+      let attestationResponse:any = await startRegistration({optionsJSON:authOptions}); 
+      console.log("startRegistration this.attestationResponse = ", attestationResponse);
+      attestationResponse.handle = this.userData.handle;
+
+      const verification:any = await this.authService.signupConfirm(attestationResponse);
+
+      if(verification.error){
+        this.error = verification.error.message;
+      }
+      else {
+        this.message = verification.message;
+        this.isConfirmSignup = true;
+      }
+      
+
       this.isLoading = false;
-      return;
+    } catch (error:any) {
+        this.error = error.message
     }
-
-    let attestationResponse:any = await startRegistration(result); 
-    console.log("startRegistration this.attestationResponse = ", attestationResponse);
-    attestationResponse.handle = this.userData.handle;
-
-    const verification:any = await this.authService.signupConfirm(attestationResponse);
-
-
-    if(verification.message) {
-      this.message = verification.message;
-      this.isConfirmSignup = true;
+    finally{
+      this.isLoading = false;
     }
-    else this.error = result.error.message;
-
-    this.isLoading = false;
-    
   }
 
   async setUserNameHandler(){
@@ -99,7 +108,7 @@ export class SignupComponent implements OnInit{
 
     this.isLoading = true;
 
-    const result:any = await this.authService.setUsername(this.userData);
+    const result:any = await this.authService.setUserName(this.userData);
     if(result.error) this.error = result.error.message
     else {
       this.router.navigate(['profile']);

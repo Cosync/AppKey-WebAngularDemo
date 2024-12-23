@@ -24,6 +24,7 @@ export class ProfileComponent implements OnInit{
       }; 
     }
    
+    console.log("Profile currentUser ", this.currentUser);
     
     this.authService.user$.subscribe(user => { 
       this.currentUser = user; 
@@ -39,6 +40,8 @@ export class ProfileComponent implements OnInit{
     this.application = await this.authService.getApplication(); 
     this.currentUser = this.authService.user;
     this.locales = this.authService.appLocales;
+
+    console.log("ngOnInit currentUser ", this.currentUser);
   }
 
   findCountryByLocale(locale:String) {
@@ -60,5 +63,9 @@ export class ProfileComponent implements OnInit{
     else {
       alert("Success")
     }
+  }
+
+  logout() {
+    this.router.navigate(['logout']);
   }
 }

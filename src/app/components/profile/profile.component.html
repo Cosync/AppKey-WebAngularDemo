@@ -4,14 +4,16 @@
     <div class="col-12 col-md-9 col-lg-7 col-xl-6">
         <div class="card" style="border-radius: 15px;">
 
-            <div class="card-header">
+            <div class="card-header"> 
+                <div class="text-center text-muted mb-3"  >Success! You’ve Logged into the AppKey Demo. Congratulations on using your passkey—how simple was that? No passwords, no MFA, no cheat sheets—just effortless, secure login. Sign up for AppKey today to bring this seamless passwordless authentication to your mobile or web app!</div>
+ 
                 <h2 class="text-uppercase text-center mb-5">Welcome</h2>
                 <h6 class="text-center mb-5">{{currentUser.displayName}}</h6>
             </div>
 
             <div class="card-body p-5"> 
                 <p class="card-text"><small class="text-muted">Handle: {{currentUser.handle}}</small></p>
-                <p class="card-text" *ngIf="application.userNamesEnabled"><small class="text-muted">User Name: {{currentUser.userName}}</small></p>
+                <p class="card-text" *ngIf="application.userNamesEnabled && currentUser.loginProvider == 'handle' "><small class="text-muted">User Name: {{currentUser.userName}}</small></p>
 
                 <div class="form-group">
                     <label for="displayName">Display Name</label>
@@ -25,10 +27,15 @@
                     </select>
                 </div>
 
-                <button type="button"  class="btn btn-primary mt-3" (click)="updateProfile()">
-                    Update
-                </button>
-              
+                <div class="row">
+                    <button type="button"  class="btn btn-primary mt-3" (click)="updateProfile()">
+                        Update
+                    </button>
+
+                    <button type="button"  class="btn btn-danger mt-3" (click)="logout()">
+                        Logout
+                    </button>
+                </div>
             </div>
         </div>
     </div>

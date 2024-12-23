@@ -12,9 +12,12 @@
             <div class="card-body p-5" *ngIf="!isSetUsername">
               <h2 class="text-uppercase text-center mb-5">Log in</h2>
 
+              <div class="text-center text-muted mb-3"  >Welcome to the AppKey demo! Log in securely using your passkey or sign up with your email to create one in seconds. See for yourself how fast and seamless passkey creation can be with AppKey—no passwords, no hassle, just security made simple.</div>
+
               <div class="alert alert-danger" role="alert" *ngIf="error != '' ">{{error}}</div>
               <div class="alert alert-primary" role="alert" *ngIf="message != '' ">{{message}}</div>
 
+              
               <form> 
                 <div class="form-group mb-5">
                   <label for="exampleInputEmail1">Email address</label>
@@ -35,6 +38,30 @@
 
                 <div class="mb-3 d-flex justify-content-center" *ngIf="application.anonymousLoginEnabled"> 
                   <button type="button" class="btn btn-primary" (click)="loginAnonymousStart()">Login Anonymous</button>
+                </div>
+
+                <div class="mb-3 d-flex justify-content-center" [style.visibility] = "application.appleLoginEnabled ? 'visible' : 'hidden'"> 
+                  <div class="row">
+                      <div class="col"></div>
+                      <div class="col">
+                      <div id="appleid-signin"
+                          data-mode="center-align"
+                          data-type="sign-in"
+                          data-color="white"
+                          data-border="true"
+                          data-border-radius="50"
+                          data-width="200"
+                          data-height="40" 
+                          class="social-button"></div>
+                      </div>
+                      <div class="col"></div> 
+                    </div>
+                </div>
+
+                <div class="mb-3 d-flex justify-content-center" [style.visibility] = "application.googleLoginEnabled ? 'visible' : 'hidden'"> 
+                  <div class="row">
+                    <div id="googleDiv"></div>
+                  </div>
                 </div>
 
                 <p class="text-center text-muted mt-5 mb-0">Don't have an account? <a href="/signup" class="fw-bold text-body"><u>Sign Up here</u></a></p>
