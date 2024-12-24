@@ -79,7 +79,7 @@ export class SignupComponent implements OnInit{
       }
 
       let attestationResponse:any = await startRegistration({optionsJSON:authOptions}); 
-      console.log("startRegistration this.attestationResponse = ", attestationResponse);
+      
       attestationResponse.handle = this.userData.handle;
 
       const verification:any = await this.authService.signupConfirm(attestationResponse);
@@ -91,10 +91,14 @@ export class SignupComponent implements OnInit{
         this.message = verification.message;
         this.isConfirmSignup = true;
       }
-      
+      console.log("startRegistration signupConfirm = ", verification);
+
+       
 
       this.isLoading = false;
     } catch (error:any) {
+      console.log("startRegistration error ", error);
+
         this.error = error.message
     }
     finally{
@@ -122,10 +126,7 @@ export class SignupComponent implements OnInit{
     try {
       this.message = ''
       this.error = ''
-
       this.isLoading = true;
-
-    
       const verification:any = await this.authService.signupComplete(this.userData);
       
       console.log("signupComplete verification = ", verification);

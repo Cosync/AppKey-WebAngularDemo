@@ -119,14 +119,12 @@ export class LoginComponent implements OnInit, AfterViewInit {
     user.firstName = user.given_name;
     this.handleSocialLogin(response.credential, "google", user)
 
-  }
-
-
-
+  } 
 
   async handleSocialLogin(token:String, provider:String, data:any ) { 
     this.error = ''
     this.isLoading = true;
+     
     let result = await this.authService.socialLogin(token, provider);
 
     if(result.error && result.error.code == 603){
@@ -138,22 +136,15 @@ export class LoginComponent implements OnInit, AfterViewInit {
       }
       else {
         console.log("handleGoogleSignIn socialSignup data " , data);
-
         result = await this.authService.socialSignup(token, data.email, provider, `${data.firstName} ${data.lastName}`);
-         
       }
-    }
-
-    this.isLoading = false;
-
+    } 
+    this.isLoading = false; 
 
     if(result.error) 
       this.error = result.error.message;
     else 
-      this.router.navigate(['profile']);
-    
-   
-
+      this.router.navigate(['profile']); 
   }
 
  
@@ -171,9 +162,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
       this.isLoading = true;
       const authOptions:any = await this.authService.loginAnonymous();  
-
+       
       if(authOptions.error) {
-        this.error = authOptions.message; 
+        this.error = authOptions.error.message; 
         this.isLoading = false;
         return;
       }
@@ -243,12 +234,14 @@ export class LoginComponent implements OnInit, AfterViewInit {
         } 
       }
       else {
-        let assertionResponse = await startAuthentication({optionsJSON:authOptions});
+        let assertionResponse:any = await startAuthentication({optionsJSON:authOptions});
+        assertionResponse.handle = authOptions.user.handle;
+
         const loginResult:any = await this.authService.loginComplete(assertionResponse); 
 
         this.isLoading = false;
 
-        if(loginResult.error)  this.error = authOptions.message;  
+        if(loginResult.error)  this.error = loginResult.error.message;  
         else if(!loginResult.userName && this.application.userNamesEnabled) this.isSetUsername = true;
         else  this.router.navigate(['profile']); 
       }
