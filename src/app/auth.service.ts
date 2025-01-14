@@ -76,8 +76,8 @@ export class AuthService {
   async getApplication(): Promise<any> {
     let app =  await this.authService.getApp();
    
-    if(app.error){ 
-      return app
+    if(app.message){ 
+      return this.responseResult(app);
     }
 
     this.application = app as Application
@@ -102,9 +102,10 @@ export class AuthService {
 
   async updateProfile(data:any): Promise<any> {
     try {
-      return  await this.authService.updateProfile(data); 
+      let result = await this.authService.updateProfile(data); 
+      return this.responseResult(result);
     } catch (error) {
-      return error
+      return {error:error}
     }
    
   }
@@ -112,9 +113,10 @@ export class AuthService {
 
   async login(data: any): Promise<any> {
     try {
-      return await this.authService.login(data); 
+      let result = await this.authService.login(data); 
+      return this.responseResult(result);
     } catch (error) {
-      return error
+      return {error:error}
     }
     
   }
@@ -124,7 +126,7 @@ export class AuthService {
     try { 
       let result:any = await this.authService.loginComplete(data.handle, data); 
 
-      if(!result.error) { 
+      if(!result.message) { 
       
         this.user$.next(result);
         this.user = result
@@ -132,9 +134,9 @@ export class AuthService {
         localStorage.setItem('currentUser', JSON.stringify(this.user));
 
       } 
-      return result;
+      return this.responseResult(result);
     } catch (error) {
-        return error
+        return {error:error}
     }
   }
 
@@ -142,9 +144,10 @@ export class AuthService {
   async loginAnonymous(): Promise<any> {
     try {
       let data = {handle:`ANON_${crypto.randomUUID()}`}
-    return await this.authService.loginAnonymous(data); 
+      let result =  await this.authService.loginAnonymous(data); 
+      return this.responseResult(result);
     } catch (error) {
-      return error
+      return {error:error}
     }
     
   }
@@ -154,7 +157,7 @@ export class AuthService {
     try { 
         
       let result:any = await this.authService.loginAnonymousComplete(data.handle, data);
-      if(!result.error){ 
+      if(!result.message){ 
     
         this.user = result as User
         this.user.accessToken = result['access-token']
@@ -163,9 +166,9 @@ export class AuthService {
         localStorage.setItem('currentUser', JSON.stringify(this.user));
       }
 
-      return result;
+      return this.responseResult(result);
     } catch (error) {
-      return error
+      return {error:error}
     }
   }
 
@@ -173,9 +176,10 @@ export class AuthService {
   async signup(data: any): Promise<any> {
     this.signupToken = "";
       try {
-        return await this.authService.signup( data);
+        let result =  await this.authService.signup( data);
+        return this.responseResult(result);
       } catch (error) {
-        return error
+        return {error:error}
       }
     
    
@@ -186,9 +190,9 @@ export class AuthService {
     try {
       let result:any = await this.authService.signupConfirm(data.handle, data);
       if(result && result['signup-token'])  this.signupToken = result['signup-token']; 
-      return result;
+      return this.responseResult(result);
     } catch (error) {
-      return error
+      return {error:error}
     }
   }
 
@@ -197,7 +201,7 @@ export class AuthService {
       try {
         data.signupToken = this.signupToken;
         let result:any = await this.authService.signupComplete(data);
-        if(!result.error) {
+        if(!result.message) {
           
           this.user$.next(result);
           this.user = result
@@ -205,9 +209,9 @@ export class AuthService {
           this.signupToken = "";
           localStorage.setItem('currentUser', JSON.stringify(this.user));
         } 
-        return result;
+        return this.responseResult(result);
       } catch (error) {
-        return error
+        return {error:error}
       }
    
   }
@@ -215,7 +219,7 @@ export class AuthService {
 
   async userNameAvailable(data: any): Promise<any> {
     let result = await this.authService.userNameAvailable(data);
-    return result;
+    return this.responseResult(result);
   }
 
   async setUserName(data: any): Promise<any> {
@@ -228,9 +232,9 @@ export class AuthService {
         
         localStorage.setItem('currentUser', JSON.stringify(this.user));
       }
-      return result;
+      return this.responseResult(result);
     } catch (error) {
-      return error;
+      return {error:error};
     }
    
   }
@@ -240,16 +244,16 @@ export class AuthService {
     try { 
       let result:any = await this.authService.socialLogin({token:token, provider:provider}); 
 
-      if(result && !result.error){  
+      if(result && !result.message){  
         this.user$.next(result);
         this.user = result
         this.user.accessToken = result['access-token'] 
         localStorage.setItem('currentUser', JSON.stringify(this.user));
       }
-      return result;
+      return this.responseResult(result);
 
     } catch (error) {
-      return error;
+      return {error:error};
     }
 
     
@@ -261,18 +265,107 @@ export class AuthService {
        
       let result:any = await this.authService.socialSignup({token:token,  handle:handle, provider:provider, displayName:displayName}); 
 
-      if(result && !result.error){  
+      if(result && !result.message){  
         this.user$.next(result);
         this.user = result
         this.user.accessToken = result['access-token'] 
         localStorage.setItem('currentUser', JSON.stringify(this.user));
       }
 
-      return result;
+      return this.responseResult(result);
 
     } catch (error) {
-      return error
+      return {error:error}
     }
+  }
+
+
+  async verify(): Promise<any> {
+    try {
+      console.log("this.user.handle ", this.user.handle)
+      let result:any = await this.authService.verify({handle: this.user.handle});  
+      return this.responseResult(result);
+
+    } catch (error) {
+      return {error:error}
+    }
+  }
+
+
+  async verifyComplete(attestation:any): Promise<any> {
+    try {
+       
+      let result:any = await this.authService.verifyComplete(this.user.handle, attestation);  
+      return this.responseResult(result);
+
+    } catch (error) {
+      return {error:error}
+    }
+  }
+
+
+
+  async addPasskey(): Promise<any> {
+    try {
+       
+      let result:any = await this.authService.addPasskey();  
+      return this.responseResult(result);
+
+    } catch (error) {
+      return {error:error}
+    }
+  }
+
+  async addPasskeyComplete(attestation:any): Promise<any> {
+    try {
+       
+      let result:any = await this.authService.addPasskeyComplete(attestation);  
+      if(result.authenticators){
+        this.user$.next(result);
+        this.user = result
+      }
+      return this.responseResult(result);
+
+    } catch (error) {
+      return {error:error}
+    }
+  }
+
+
+  async updatePasskey(data:any): Promise<any> {
+    try {
+       
+      let result:any = await this.authService.updatePasskey(data);  
+      if(result.authenticators){
+        this.user$.next(result);
+        this.user = result
+      }
+      return this.responseResult(result);
+
+    } catch (error) {
+      return {error:error}
+    }
+  }
+
+
+  async deletePasskey(data:any): Promise<any> {
+    try {
+       
+      let result:any = await this.authService.removePasskey(data); 
+      if(result.authenticators){
+        this.user$.next(result);
+        this.user = result
+      } 
+      return this.responseResult(result);
+
+    } catch (error) {
+      return {error:error}
+    }
+  }
+
+  async responseResult(params:any) {
+    if(params.message && params.code) return {error:params}
+    else return params
   }
 
 }

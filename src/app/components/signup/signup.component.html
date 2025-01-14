@@ -71,15 +71,7 @@
                   <label for="code">Signup Code</label>
                   <input type="number" class="form-control" name="code"  placeholder="Enter code" value="{{ userData.code }}" (change)="updateFormData($event)">
                    
-                </div>
-  
-
-                <div class="form-check d-flex justify-content-center mb-5 mt-2">
-                  <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3cg" />
-                  <label class="form-check-label" for="form2Example3g">
-                    I agree all statements in <a  class="text-body"><u>Terms of service</u></a>
-                  </label>
-                </div>
+                </div> 
 
                 
                 <div class="d-flex justify-content-center mt-2" *ngIf="isConfirmSignup">
@@ -88,7 +80,7 @@
                     <span class="visually-hidden">Loading...</span>
                   </div>
 
-                  <button type="button" *ngIf="!isLoading" class="btn btn-primary" (click)="verifySignup()">
+                  <button type="button" *ngIf="!isLoading" class="btn btn-primary mt-2" (click)="verifySignup()">
                     Submit
                   </button>
                 </div> 

@@ -27,17 +27,94 @@
                     </select>
                 </div>
 
-                <div class="row">
+                <div class="row mt-5">
                     <button type="button"  class="btn btn-primary mt-3" (click)="updateProfile()">
                         Update
                     </button>
+
+                   
+                </div>
+
+                <div class="form-group mt-4" *ngIf="currentUser.loginProvider == 'handle' && currentUser.authenticators.length">
+                    <h5 class="text-uppercase text-center mb-5">Manage Passkeys</h5>
+
+                    <div *ngFor="let passkey of currentUser.authenticators" class="border border-primary rounded p-2 mt-4">
+                        <div class="row">
+                            <div class="col-9 pt-2"  > {{passkey.name}} </div>
+
+                            <div class="col-9 align-middle" *ngIf="isUpdatingKey && selectedKey && selectedKey.id == passkey.id"> 
+                                <div class="form-group">
+                                    <label for="keyName">Enter Key Name</label>
+                                    <input type="text" class="form-control" name="keyName" placeholder="Key Name" value="{{ formData.keyName}}" (change)="updateFormData($event)">
+                                </div> 
+                            </div>
+
+                            <div class="col">  
+
+                                <div class="row">
+                                    <div class="col">  
+                                        <button mat-mini-fab aria-label="edit con" (click)=" onClickEditKey(passkey)">
+                                            <mat-icon>edit</mat-icon>
+                                        </button> 
+                                    </div>
+
+                                    <div class="col" *ngIf="currentUser.authenticators.length > 1">  
+                                        <button mat-mini-fab aria-label="delete icon" (click)="openModalVerifyPasskey(verifyModal, 'deletePasskey', passkey)">
+                                            <mat-icon>delete</mat-icon>
+                                        </button> 
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </div> 
+                    <div class="row mt-3">
+                        <div class="col" *ngIf="!isUpdatingKey">
+                            <button type="button"  class="btn btn-primary" (click)="openModalVerifyPasskey(verifyModal, 'addPasskey')">
+                                Add Passkey
+                            </button>
+                        </div> 
+
+                        <div class="col" *ngIf="isUpdatingKey">
+                           
+                            <button type="button"  class="btn btn-info " (click)="isUpdatingKey = false; selectedKey = null">
+                                Cancel
+                            </button> 
+                        </div>
+                        <div class="col" *ngIf="isUpdatingKey">
+                            <button type="button"  class="btn btn-primary " (click)="openModalVerifyPasskey(verifyModal, 'updatePasskey')">
+                                Update
+                            </button> 
+                           
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-5">
+                   
 
                     <button type="button"  class="btn btn-danger mt-3" (click)="logout()">
                         Logout
                     </button>
                 </div>
+
+
             </div>
         </div>
     </div>
 </div>
+
+<ng-template #verifyModal let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Verify Passkey</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+        <h6 id="modal-basic-title">Please verify your acount before manage account passkey.</h6>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-outline-secondary" (click)="modal.close('verify')">Verify</button>
+	</div>
+</ng-template>
     

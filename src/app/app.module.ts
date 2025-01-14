@@ -10,6 +10,9 @@ import { SignupComponent } from './components/signup/signup.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import {MatDividerModule} from '@angular/material/divider';
 
 @NgModule({
   declarations: [ 
@@ -26,7 +29,10 @@ import { FooterComponent } from './components/footer/footer.component';
     NgbModule,
     CommonModule,
     RouterOutlet,
-    BrowserModule
+    BrowserModule,
+    MatIconModule,
+    MatButtonModule,
+    MatDividerModule
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
