@@ -35,7 +35,7 @@
                    
                 </div>
 
-                <div class="form-group mt-4" *ngIf="currentUser.loginProvider == 'handle' && currentUser.authenticators.length">
+                <div class="form-group mt-4" *ngIf="currentUser.loginProvider == 'handle' && currentUser.handle.indexOf('ANON_') < 0 && currentUser.authenticators.length">
                     <h5 class="text-uppercase text-center mb-5">Manage Passkeys</h5>
 
                     <div *ngFor="let passkey of currentUser.authenticators" class="border border-primary rounded p-2 mt-4">
