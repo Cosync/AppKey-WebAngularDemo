@@ -3,9 +3,10 @@
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.5.
 
 ## Update environment config
+
 Go to environments/environment.ts and update REST_API and APP_TOKEN
 
-
+Update config in index.html for Apple login
 
 ## Development server
 
