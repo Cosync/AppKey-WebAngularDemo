@@ -1,7 +1,7 @@
 import { Component, OnInit, inject, signal, TemplateRef, WritableSignal } from '@angular/core';
 import { AuthService } from '../../auth.service';
 import { Router } from '@angular/router';
-import { ModalDismissReasons, NgbDatepickerModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { startAuthentication, startRegistration } from '@simplewebauthn/browser';
 
 @Component({
@@ -24,19 +24,19 @@ export class ProfileComponent implements OnInit{
   isUpdatingKey:boolean = false
 
   constructor(private authService: AuthService, private router: Router) { 
-    this.currentUser = authService.user;
-    if(this.currentUser) {
-      this.formData = {
-        appId:this.currentUser.appId,
-        displayName: this.currentUser.displayName,
-        handle: this.currentUser.handle
-      }; 
-    }
+    this.currentUser = authService.user; 
    
     console.log("Profile currentUser ", this.currentUser);
     
     this.authService.user$.subscribe(user => { 
       this.currentUser = user; 
+      if(this.currentUser) {
+        this.formData = {
+          appId:this.currentUser.appId,
+          displayName: this.currentUser.displayName,
+          handle: this.currentUser.handle
+        }; 
+      }
     }); 
     
   }
@@ -49,6 +49,14 @@ export class ProfileComponent implements OnInit{
     this.application = await this.authService.getApplication(); 
     this.currentUser = this.authService.user;
     this.locales = this.authService.appLocales;
+
+    if(this.currentUser) {
+      this.formData = {
+        appId:this.currentUser.appId,
+        displayName: this.currentUser.displayName,
+        handle: this.currentUser.handle
+      }; 
+    }
 
     console.log("ngOnInit currentUser ", this.currentUser);
   }
@@ -93,7 +101,7 @@ export class ProfileComponent implements OnInit{
 
     if(resutl.error) alert(resutl.error.message)
     else {
-      alert("Success")
+      alert("Updating profile is successful.") 
     }
   }
 
@@ -162,7 +170,7 @@ export class ProfileComponent implements OnInit{
 
       const result:any = await this.authService.addPasskeyComplete(attestationResponse); 
       if (result.jwt) {
-        alert("Success") 
+        alert("Adding passkey is successful.") 
       } else {
         alert(result.error.message) 
       } 
@@ -176,7 +184,7 @@ export class ProfileComponent implements OnInit{
 
     if(resutl.error) alert(resutl.error.message)
     else {
-      alert("Success")
+      alert("Updating passkey is successful.") 
       this.isUpdatingKey = false
       this.selectedKey = null
     }
@@ -187,7 +195,7 @@ export class ProfileComponent implements OnInit{
 
     if(resutl.error) alert(resutl.error.message)
     else {
-      alert("Success")
+      alert("Deleting passkey is successful.") 
       this.selectedKey = null
     }
   }
