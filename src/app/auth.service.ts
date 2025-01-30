@@ -305,10 +305,10 @@ export class AuthService {
 
 
 
-  async addPasskey(): Promise<any> {
+  async addPasskey(data:any = null): Promise<any> {
     try {
        
-      let result:any = await this.authService.addPasskey();  
+      let result:any = await this.authService.addPasskey(data);  
       return this.responseResult(result);
 
     } catch (error) {

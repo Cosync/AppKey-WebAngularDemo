@@ -13,7 +13,7 @@ declare const AppleID: any;
   styleUrl: './login.component.css'
 })
 export class LoginComponent implements OnInit, AfterViewInit { 
-  
+  isResetPasskey = false;
   isSetUsername = false;
   isLoading = false;
   application:any = {}
@@ -191,6 +191,41 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   }
 
+  async addPasskey() {
+    try { 
+
+      if (this.userData.token == ""){
+        this.error = "Please enter reset token";
+        return;
+      }
+
+      let data = {
+        'access-token': this.userData.token
+      };
+
+      let authOptions = await this.authService.addPasskey(data);
+      if(authOptions.error){
+        this.error = (authOptions.error.message) 
+        return;
+      }
+      let attestationResponse:any = await startRegistration({optionsJSON:authOptions});  
+      attestationResponse['access-token'] = this.userData.token;
+
+      const result:any = await this.authService.addPasskeyComplete(attestationResponse); 
+      if (result.jwt) {
+        alert("Adding passkey is successful.") 
+      } else {
+        alert(result.error.message) 
+      } 
+
+    } catch (err:any) {
+      console.log(err)
+      this.error = err.message
+    }
+    finally{
+      this.isLoading = false;
+    }
+  }
 
   async loginStart() {
     try { 
@@ -213,26 +248,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
         this.isLoading = false;
         return;
       }
-      else if (authOptions.requireAddPasskey){
-
-        let attestationResponse:any = await startRegistration({optionsJSON:authOptions}); 
-        console.log("startRegistration this.attestationResponse = ", attestationResponse);
-
-        attestationResponse.handle = authOptions.user.handle;
-
-        const verification:any = await this.authService.signupComplete(attestationResponse);
-        
-        this.isLoading = false;
-
-        if (verification.jwt) {
-          
-          if(!verification.userName && this.application.userNamesEnabled) this.isSetUsername = true;
-          else  this.router.navigate(['profile']); 
-          
-        } else {
-          this.error = verification.error.message
-        } 
-      }
+      else if (authOptions.requireAddPasskey) this.isResetPasskey = true;
       else {
         let assertionResponse:any = await startAuthentication({optionsJSON:authOptions});
         assertionResponse.handle = authOptions.user.handle;

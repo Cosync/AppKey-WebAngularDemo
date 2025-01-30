@@ -17,8 +17,33 @@
               <div class="alert alert-danger" role="alert" *ngIf="error != '' ">{{error}}</div>
               <div class="alert alert-primary" role="alert" *ngIf="message != '' ">{{message}}</div>
 
-              
-              <form> 
+              <form *ngIf="isResetPasskey"> 
+                <div class="text-center text-primary mb-3"  >Your account has been requested for reseting passkey. Please enter your reset passkey token below.</div>
+
+                <div class="form-group mb-5">
+                  <label for="token">Reset Token</label>
+                  <input type="text" class="form-control" name="token" aria-describedby="tokenHelp" placeholder="Enter token" (change)="updateFormData($event)">
+                  
+                </div> 
+
+                <div class=" d-flex justify-content-center"  *ngIf="isLoading">
+
+                  <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+
+                <div class="mb-3 d-flex justify-content-center"> 
+                  <button type="button" class="btn btn-primary" (click)="addPasskey()">Submit</button>
+                </div>
+
+                <div class="mb-3 d-flex justify-content-center" > 
+                  <button type="button" class="btn btn-primary" (click)="isResetPasskey = false">Cancel</button>
+                </div>
+
+              </form>
+
+              <form *ngIf="!isResetPasskey"> 
                 <div class="form-group mb-5">
                   <label for="exampleInputEmail1">Email address</label>
                   <input type="email" class="form-control" name="handle" aria-describedby="emailHelp" placeholder="Enter email" (change)="updateFormData($event)">
