@@ -10,6 +10,7 @@ export class User {
     appId:string = ""; 
     accessToken:string = ""
     jwt:string = "" 
+    idToken:string = "" 
     createdAt:string = ""
     updatedAt:string = ""
 }
